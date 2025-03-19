@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "docker_instance" {
-  ami           = "ami-0c55b159cbfafe1f0"  
+  ami           = "ami-08b5b3a93ed654d19"  
   instance_type = "t2.micro"  
  
 
