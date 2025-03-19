@@ -3,11 +3,9 @@ provider "aws" {
 }
 
 resource "aws_instance" "docker_instance" {
-  ami           = "ami-08b5b3a93ed654d19"  
-  instance_type = "t2.micro"  
- 
+  ami           = "ami-08b5b3a93ed654d19"  # Use an appropriate Amazon Linux 2 AMI ID
+  instance_type = "t2.micro"  # Instance type
 
- 
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
@@ -20,6 +18,14 @@ resource "aws_instance" "docker_instance" {
 
               # Run Nginx in Docker to serve the Hello World page
               docker run -d -p 80:80 --name webserver -v /home/ec2-user/hello.html:/usr/share/nginx/html/index.html nginx
+
+              # Check Docker container status
+              docker ps -a > /home/ec2-user/docker_ps.log
+              docker port webserver > /home/ec2-user/docker_port.log
+
+              # Optional: Output the logs to help troubleshoot
+              cat /home/ec2-user/docker_ps.log
+              cat /home/ec2-user/docker_port.log
               EOF
 
   tags = {
